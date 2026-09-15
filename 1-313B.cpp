@@ -35,12 +35,20 @@ int main() {
     int SUM[n-1];
     for(int i=0;i<n-1;i++){
         int sum=0;
-        for(int j=0;j<=i;j++)sum+=xyz[j];
+        if(i>=1) sum = SUM[i-1];
+        sum += xyz[i];
+        // Even this is not good: for(int j=0;j<=i;j++)sum+=xyz[j]; THIS IS ALSO CAUSING TLE ISSUES
+
         SUM[i]=sum;
     }
     while(m--){
         int l,r; cin>>l>>r;
-        cout<<SUM[r-2]-SUM[l-2]<<endl; // This is also something that does many errors.
+        if(r>=2 && l>=2){
+            cout<<SUM[r-2]-SUM[l-2]<<endl;
+        } // This is also something that does many errors.
+        else if(l==1){
+            cout<<SUM[r-2]<<endl; // Even leaving this was another mistake.
+        }
         // It is given that l <= i < r and for array, since positions starts from 0, it is l-1 <= i < r-1;
         // This we want l-1 to be included but r-1 not to be included.
         // In case l+1 = r, then we just want l-th one, then use the concept that S_(n) - S_(n-1) is T_n and not S(n)-S(n). I was doing mistake related to this concept.
